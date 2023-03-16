@@ -2,7 +2,7 @@
 JAVAC = javac
 JAVA = java
 JAR = jar
-SRCDIRS = model view controller
+SRCDIRS = src/model src/view src/controller
 BINDIR = bin
 LIBDIR = lib
 MAINCLASS = Main
@@ -14,7 +14,7 @@ default: run
 # Compile the Java classes
 classes:
 	mkdir -p $(BINDIR)
-	$(JAVAC) -d $(BINDIR) -cp $(CLASSPATH) $(wildcard $(addsuffix /*.java, $(SRCDIRS))) Main.java
+	$(JAVAC) -d $(BINDIR) -cp $(CLASSPATH) $(wildcard $(addsuffix /*.java, $(SRCDIRS))) src/Main.java
 
 # Create the JAR file
 jar: classes
@@ -38,3 +38,4 @@ $(LIBDIR)/sqlite-jdbc-3.36.0.3.jar:
 
 # Define a phony target for the run command
 .PHONY: run
+
