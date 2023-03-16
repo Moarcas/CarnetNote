@@ -1,0 +1,12 @@
+{
+    "java.project.referencedLibraries": [
+        {
+            "name": "sqlite-jdbc",
+            "path": "/home/cosmin/Facultate/PAO/Proiecte/Proiect1/CarnetOnline/lib/sqlite-jdbc-3.36.0.3.jar"
+        }
+    ],
+    "java.project.sourcePaths": [
+        "src",
+        "lib"
+    ]
+}
