@@ -2,7 +2,8 @@
 JAVAC = javac
 JAVA = java
 JAR = jar
-SRCDIRS = src/model src/view src/controller
+SRCDIRS := $(shell find $(SRC) -type d)
+SRCS := $(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.java))
 BINDIR = bin
 LIBDIR = lib
 MAINCLASS = Main
@@ -14,7 +15,7 @@ default: run
 # Compile the Java classes
 classes:
 	mkdir -p $(BINDIR)
-	$(JAVAC) -d $(BINDIR) -cp $(CLASSPATH) $(wildcard $(addsuffix /*.java, $(SRCDIRS))) src/Main.java
+	$(JAVAC) -d $(BINDIR) -cp $(CLASSPATH) $(SRCS)
 
 # Create the JAR file
 jar: classes
@@ -26,7 +27,7 @@ run: jar
 
 # Clean the build files
 clean:
-	rm -rf $(BINDIR)/*.class myapp.jar
+	rm -rf $(BINDIR)/* myapp.jar
 
 # Specify the dependencies for the jar target
 jar: $(wildcard $(addsuffix /*.java, $(SRCDIRS))) $(LIBDIR)/sqlite-jdbc-3.36.0.3.jar
