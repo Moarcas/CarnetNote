@@ -13,8 +13,7 @@ public abstract class User {
     public User() {
     }
 
-    public User(int id, String nume, String prenume, String email, String passwordHash, String rol) {
-        this.id = id;
+    public User(String nume, String prenume, String email, String passwordHash, String rol) {
         this.nume = nume;
         this.prenume = prenume;
         this.email = email;

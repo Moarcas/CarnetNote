@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-03-27T12:12:27.917133Z</date>
+  <millis>1679919147917</millis>
+  <nanos>133000</nanos>
+  <sequence>0</sequence>
+  <logger>Main</logger>
+  <level>INFO</level>
+  <class>Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Aplicatia a pornit.</message>
+</record>
+<record>
+  <date>2023-03-27T12:12:28.354509Z</date>
+  <millis>1679919148354</millis>
+  <nanos>509000</nanos>
+  <sequence>1</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>INFO</level>
+  <class>model.dao.UserDAO</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Conexiunea la baza de date a fost realizata cu succes.</message>
+</record>
+<record>
+  <date>2023-03-27T12:12:28.472473Z</date>
+  <millis>1679919148472</millis>
+  <nanos>473000</nanos>
+  <sequence>2</sequence>
+  <logger>Main</logger>
+  <level>INFO</level>
+  <class>Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Aplicatia s-a oprit.</message>
+</record>
+</log>

@@ -1,32 +1,26 @@
 package model.entity;
 
 public class Student extends User{
-    private int an;
-    private int grupa;
+    private int idGrupa;
 
     public Student() { 
     }
 
-    public Student(int id, String nume, String prenume, String email, String passwordHash, int an, int grupa) {
-        super(id, nume, prenume, email, passwordHash, "student");
-        this.an = an;
-        this.grupa = grupa;
+    public Student(int idGrupa) {
+        this.idGrupa = idGrupa;
     }
 
-    public int getAn() {
-        return an;
+    public Student(String nume, String prenume, String email, String passwordHash, int idGrupa) {
+        super(nume, prenume, email, passwordHash, "student");
+        this.idGrupa = idGrupa;
     }
 
-    public void setAn(int an) {
-        this.an = an;
+    public int getIdGrupa() {
+        return idGrupa;
     }
 
-    public int getGrupa() {
-        return grupa;
-    }
-
-    public void setGrupa(int grupa) {
-        this.grupa = grupa;
+    public void setIdGrupa(int idGrupa) {
+        this.idGrupa = idGrupa;
     }
 
 }

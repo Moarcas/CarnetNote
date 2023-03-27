@@ -10,8 +10,7 @@ public class Materie {
     public Materie() {
     }
 
-    public Materie(int id, String nume, String descriere) {
-        this.id = id;
+    public Materie(String nume, String descriere) {
         this.nume = nume;
         this.descriere = descriere;
     }

@@ -1,8 +1,11 @@
 package model.dao;
 
+import java.security.DrbgParameters.Reseed;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import model.entity.Student;
 import model.util.DatabaseConnection;
@@ -24,18 +27,28 @@ public class StudentDAO {
     }
 
     // Adauga nou student in baza de date
+    public void addStudent(Student student) throws SQLException {
+        String sql = "INSERT INTO students (id, idGrupa) VALUES (?, ?)";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        stmt.setInt(1, student.getId());
+        stmt.setInt(2, student.getIdGrupa());
+        stmt.executeUpdate();
+    }
 
-    public void addStudent(Student student) {
-        String sql = "INSERT INTO students (id, an, grupa) VALUES (?, ?, ?)";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            
-            stmt.setInt(1, student.getId());
-            stmt.setInt(2, student.getAn());
-            stmt.setInt(3, student.getGrupa());
-            stmt.executeUpdate();
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
+    public Student getStudentById(int id) throws SQLException {
+        Student student = null;
+
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE id = ?");
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+
+        // Aici nu se mai verifica daca exista student in baza de date deoarece din moment
+        // ce exista user cu aceelasi id exista si student
+        int idGrupa = rs.getInt("idGrupa");
+
+        student = new Student(idGrupa);
+
+        return student;
     }
 }
