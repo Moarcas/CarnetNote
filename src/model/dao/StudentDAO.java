@@ -6,9 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import exceptions.GrupaNotFoundException;
+import exceptions.MaterieNotFoundException;
 import exceptions.UserNotFoundException;
 import model.entity.Student;
+import model.entity.User;
 import model.util.DatabaseConnection;
 
 public class StudentDAO {
@@ -51,6 +56,22 @@ public class StudentDAO {
         student = new Student(idGrupa);
 
         return student;
+    }
+
+    public List<User> getAllStudents() throws SQLException, UserNotFoundException, MaterieNotFoundException, GrupaNotFoundException {
+        List<User> students = new ArrayList<>();
+        UserDAO userDAO = UserDAO.getInstance();
+
+        String sql = "SELECT id FROM STUDENTS";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            int idStudent = rs.getInt("id");
+            Student student = (Student) userDAO.getUserById(idStudent);
+            students.add(student);
+        }
+        return students;
     }
 
     public void updateStudent(int id, Student student) throws SQLException, UserNotFoundException {

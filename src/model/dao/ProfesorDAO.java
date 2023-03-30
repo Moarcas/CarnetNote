@@ -15,6 +15,7 @@ import exceptions.UserNotFoundException;
 import model.entity.Grupa;
 import model.entity.Materie;
 import model.entity.Profesor;
+import model.entity.User;
 import model.util.DatabaseConnection;
 
 public class ProfesorDAO {
@@ -88,6 +89,22 @@ public class ProfesorDAO {
         }
 
         return profesor;
+    }
+
+    public List<User> getAllTeachers() throws SQLException, UserNotFoundException, MaterieNotFoundException, GrupaNotFoundException {
+        List<User> teachers = new ArrayList<>();
+        UserDAO userDAO = UserDAO.getInstance();
+
+        String sql = "SELECT id FROM teachers";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            int idProfesor = rs.getInt("id");
+            Profesor profesor = (Profesor) userDAO.getUserById(idProfesor);
+            teachers.add(profesor);
+        }
+        return teachers;
     }
 
     public void updateProfesor(int id, Profesor profesor) throws SQLException, UserNotFoundException {

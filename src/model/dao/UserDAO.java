@@ -1,5 +1,7 @@
 package model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -150,6 +152,29 @@ public class UserDAO {
         }
 
         return user;
+    }
+
+    public List<User> getAllUsers(String userType) throws SQLException, UserNotFoundException, MaterieNotFoundException, GrupaNotFoundException {
+        List<User> users = new ArrayList<>();
+
+        switch (userType) {
+            case "student":
+                StudentDAO studentDAO = StudentDAO.getInstance();
+                users = studentDAO.getAllStudents();
+                break;
+            case "profesor":
+                ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
+                // users = profesorDAO.getAllTeachers();
+                break;
+            case "administrator":
+                AdministratorDAO administratorDAO = AdministratorDAO.getInstance();
+                // users = administratorDAO.getAllAdmins();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value " + userType);
+        }
+
+        return users;
     }
 
     public void updateUser(int id, User user) throws SQLException, UserNotFoundException {

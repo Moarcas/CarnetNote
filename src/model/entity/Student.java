@@ -23,4 +23,12 @@ public class Student extends User{
         this.idGrupa = idGrupa;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "{" +
+            " idGrupa='" + getIdGrupa() + "'" +
+            "}";
+    }
+
+
 }
