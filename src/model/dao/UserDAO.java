@@ -3,9 +3,6 @@ package model.dao;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.sqlite.ExtendedCommand;
-import org.sqlite.javax.SQLitePooledConnection;
-
 import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
 import exceptions.UserNotFoundException;
@@ -148,11 +145,120 @@ public class UserDAO {
         }
 
         if (user == null) {
+            logger.log(Level.SEVERE, "Utilizatorul cu ID-ul " + id + " nu a fost gasit in baza de date");
             throw new UserNotFoundException("Utilizatorul cu ID-ul " + id + " nu a fost gasit");
         }
 
         return user;
     }
+
+    public void updateUser(int id, User user) throws SQLException, UserNotFoundException {
+        if (user instanceof Student) {
+            try {
+                StudentDAO studentDAO = StudentDAO.getInstance();
+                studentDAO.updateStudent(id, (Student) user);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Nu s-a putut actualiza studentul " + user.getNume() + " " + user.getPrenume() + " in baza de date.", e);        
+                throw e;
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Nu s-a putut actualiza studentul " + user.getNume() + " " + user.getPrenume() + " in baza de date: " + e.getMessage(), e);
+                throw e;
+            }
+        } else if (user instanceof Profesor) {
+            try {
+                ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
+                profesorDAO.updateProfesor(id, (Profesor) user);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Nu s-a putut actualiza studentul " + user.getNume() + " " + user.getPrenume() + " in baza de date.", e);        
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Nu s-a putut actualiza studentul " + user.getNume() + " " + user.getPrenume() + " in baza de date: " + e.getMessage(), e);
+                throw e;
+            }
+        // } else if (user instanceof Administrator) {
+        //     try {
+        //         AdministratorDAO administratorDAO = AdministratorDAO.getInstance();
+        //         // administratorDAO.updateAdministrator((Administrator) user);     
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //         logger.log(Level.SEVERE, "Nu s-a putut actualiza studentul " + user.getNume() + " " + user.getPrenume() + " in baza de date.", e);        
+        //     }
+        }
+
+        String sql = "UPDATE users SET nume = ?, prenume = ?, email = ?, passwordHash = ? WHERE id = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, user.getNume());
+        stmt.setString(2, user.getPrenume());
+        stmt.setString(3, user.getEmail());
+        stmt.setString(4, user.getPasswordHash());
+        stmt.setInt(5, id);
+
+        int affectedRows = stmt.executeUpdate();
+        if (affectedRows == 0) {
+            throw new UserNotFoundException("Utilizatorul cu id-ul " + id + " nu a fost gasit in baza de date");
+        }
+
+        logger.info("Informatiile utilizatorului " + user.getNume() + " " + user.getPrenume() + " au fost actualizate cu succes.");
+    } 
+
+    public void deleteUser(int id) throws MaterieNotFoundException, GrupaNotFoundException, UserNotFoundException {
+        UserDAO userDAO = UserDAO.getInstance();
+        User user = userDAO.getUserById(id);  
+        
+        if (user instanceof Student) {
+            try {
+                StudentDAO studentDAO = StudentDAO.getInstance();
+                studentDAO.deteleStudent(id);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Nu s-a putut sterge studentul " + user.getNume() + " " + user.getPrenume() + " din baza de date.", e);        
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Nu s-a putut sterge studentul " + user.getNume() + " " + user.getPrenume() + " din baza de date: " + e.getMessage(), e);
+            }
+        } else if (user instanceof Profesor) {
+            try {
+                ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
+                profesorDAO.deteleProfesor(id);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Nu s-a putut sterge profesorul " + user.getNume() + " " + user.getPrenume() + " din baza de date.", e);        
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Nu s-a putut sterge profesorul " + user.getNume() + " " + user.getPrenume() + " din baza de date: " + e.getMessage(), e);
+                throw e;
+            }
+        } else if (user instanceof Administrator) {
+            // try {
+            //     StudentDAO studentDAO = StudentDAO.getInstance();
+            //     studentDAO.deteleStudent(id);
+            // } catch (SQLException e) {
+            //     e.printStackTrace();
+            //     logger.log(Level.SEVERE, "Nu s-a putut sterge studentul " + user.getNume() + " " + user.getPrenume() + " din baza de date.", e);        
+            // } catch (UserNotFoundException e) {
+            //     e.printStackTrace();
+            //     logger.log(Level.SEVERE, "Nu s-a putut sterge studentul " + user.getNume() + " " + user.getPrenume() + " din baza de date: " + e.getMessage(), e);
+            //     throw e;
+            // }
+        }
+
+        // sterge din tabela users
+        String sql = "DELETE FROM users WHERE id = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.log(Level.SEVERE, "Nu s-a putut sterge user-ul cu id-ul " + id, e);
+        }
+        logger.info("User-ul cu id-ul " + id + " a fost sters cu succes din baza de date");
+    }
 }
+
+
 
 

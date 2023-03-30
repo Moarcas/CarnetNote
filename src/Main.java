@@ -35,63 +35,8 @@ public class Main {
 
         logger.info("Aplicatia a pornit.");
         
-        // MaterieDAO materieDAO = MaterieDAO.getInstance();
-        // try {
-        //     Materie materie = materieDAO.getMaterieById(4);
-        //     System.out.println(materie.toString());
-        // } catch (MaterieNotFoundException e) {
-        //     System.err.println("Materia nu a fost gaista");
-        //     e.printStackTrace();
-        // }
-
-        // GrupaDAO grupaDAO = GrupaDAO.getInstance();
-        // Grupa grupa = new Grupa("251", 2, null); 
-        // grupaDAO.addGrupa(grupa);
-    
-        // Grupa grupa2;
-        // try {
-        //     grupa2 = grupaDAO.getGrupaById(1);
-        //     System.out.println(grupa2.toString());
-        // } catch (GrupaNotFoundException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // } catch (UserNotFoundException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-    
-        // UserDAO userDAO = UserDAO.getInstance();
-        // Student student = new Student("Maca", "Maca", "mamcamaca@gmai.com", "sdfsdfd", 1);
-        // userDAO.addUser(student);
-
-        // try {
-        //     grupa2 = grupaDAO.getGrupaById(1);
-        //     System.out.println(grupa2.toString());
-        // } catch (GrupaNotFoundException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // } catch (UserNotFoundException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
         
-    
-        try {
-            UserDAO userDAO = UserDAO.getInstance();
-            User profesor = userDAO.getUserById(30);
-            System.out.println(profesor.toString());
 
-        } catch (UserNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MaterieNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (GrupaNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
         logger.info("Aplicatia s-a oprit.");
     }
 }

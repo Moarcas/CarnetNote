@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import exceptions.UserNotFoundException;
 import model.entity.Student;
 import model.util.DatabaseConnection;
 
@@ -36,7 +37,7 @@ public class StudentDAO {
         stmt.executeUpdate();
     }
 
-    public Student getStudentById(int id) throws SQLException {
+    public Student getStudentById(int id) throws SQLException  {
         Student student = null;
 
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE id = ?");
@@ -50,5 +51,28 @@ public class StudentDAO {
         student = new Student(idGrupa);
 
         return student;
+    }
+
+    public void updateStudent(int id, Student student) throws SQLException, UserNotFoundException {
+        String sql = "UPDATE students SET idGrupa = ? WHERE id = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, student.getIdGrupa());
+        stmt.setInt(2, id);
+
+        int affectedRows = stmt.executeUpdate();
+        if (affectedRows == 0) {
+            throw new UserNotFoundException("Studentul cu id-ul " + id + " nu a fost gasit in baza de date");
+        }        
+    }
+
+    public void deteleStudent(int id) throws SQLException, UserNotFoundException {
+        String sql = "DELETE FROM students WHERE id = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, id);
+        
+        int affectedRows = stmt.executeUpdate();
+        if (affectedRows == 0) {
+            throw new UserNotFoundException("Nu s-a gasit studentul cu id-ul " + id);
+        } 
     }
 }

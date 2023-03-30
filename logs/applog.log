@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2023-03-27T12:12:27.917133Z</date>
-  <millis>1679919147917</millis>
-  <nanos>133000</nanos>
+  <date>2023-03-30T13:20:06.426629Z</date>
+  <millis>1680182406426</millis>
+  <nanos>629000</nanos>
   <sequence>0</sequence>
   <logger>Main</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Aplicatia a pornit.</message>
 </record>
 <record>
-  <date>2023-03-27T12:12:28.354509Z</date>
-  <millis>1679919148354</millis>
-  <nanos>509000</nanos>
+  <date>2023-03-30T13:20:06.683957Z</date>
+  <millis>1680182406683</millis>
+  <nanos>957000</nanos>
   <sequence>1</sequence>
   <logger>model.dao.UserDAO</logger>
   <level>INFO</level>
@@ -26,10 +26,142 @@
   <message>Conexiunea la baza de date a fost realizata cu succes.</message>
 </record>
 <record>
-  <date>2023-03-27T12:12:28.472473Z</date>
-  <millis>1679919148472</millis>
-  <nanos>473000</nanos>
+  <date>2023-03-30T13:20:06.695934Z</date>
+  <millis>1680182406695</millis>
+  <nanos>934000</nanos>
   <sequence>2</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 10 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.698302Z</date>
+  <millis>1680182406698</millis>
+  <nanos>302000</nanos>
+  <sequence>3</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 11 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.700296Z</date>
+  <millis>1680182406700</millis>
+  <nanos>296000</nanos>
+  <sequence>4</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 12 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.702173Z</date>
+  <millis>1680182406702</millis>
+  <nanos>173000</nanos>
+  <sequence>5</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 13 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.703953Z</date>
+  <millis>1680182406703</millis>
+  <nanos>953000</nanos>
+  <sequence>6</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 14 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.705760Z</date>
+  <millis>1680182406705</millis>
+  <nanos>760000</nanos>
+  <sequence>7</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 15 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.707586Z</date>
+  <millis>1680182406707</millis>
+  <nanos>586000</nanos>
+  <sequence>8</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 16 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.708933Z</date>
+  <millis>1680182406708</millis>
+  <nanos>933000</nanos>
+  <sequence>9</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 17 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.710619Z</date>
+  <millis>1680182406710</millis>
+  <nanos>619000</nanos>
+  <sequence>10</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 18 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.725181Z</date>
+  <millis>1680182406725</millis>
+  <nanos>181000</nanos>
+  <sequence>11</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 19 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.726944Z</date>
+  <millis>1680182406726</millis>
+  <nanos>944000</nanos>
+  <sequence>12</sequence>
+  <logger>model.dao.UserDAO</logger>
+  <level>SEVERE</level>
+  <class>model.dao.UserDAO</class>
+  <method>getUserById</method>
+  <thread>1</thread>
+  <message>Utilizatorul cu ID-ul 20 nu a fost gasit in baza de date</message>
+</record>
+<record>
+  <date>2023-03-30T13:20:06.728205Z</date>
+  <millis>1680182406728</millis>
+  <nanos>205000</nanos>
+  <sequence>13</sequence>
   <logger>Main</logger>
   <level>INFO</level>
   <class>Main</class>

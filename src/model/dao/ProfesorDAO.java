@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.plaf.synth.SynthSpinnerUI;
+
 import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
 import exceptions.UserNotFoundException;
@@ -87,4 +89,26 @@ public class ProfesorDAO {
 
         return profesor;
     }
-}
+
+    public void updateProfesor(int id, Profesor profesor) throws SQLException, UserNotFoundException {
+        String sql = "UPDATE teachers SET id = ? WHERE id = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, id);
+        stmt.setInt(2, id);
+
+        int affectedRows = stmt.executeUpdate();
+        if (affectedRows == 0) {
+            throw new UserNotFoundException("Profesorul cu id-ul " + id + " nu a fost gasit in baza de date");
+        }
+    }
+
+    public void deteleProfesor(int id) throws SQLException, UserNotFoundException {
+        String sql = "DELETE FROM teachers where id = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, id);
+        int affectedRows = stmt.executeUpdate();
+        if (affectedRows == 0) {
+            throw new UserNotFoundException("Profesorul cu id-ul " + id + " nu a fost gasit in baza de date");
+        }
+    }
+}   
