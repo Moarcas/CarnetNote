@@ -10,11 +10,15 @@ import java.util.logging.SimpleFormatter;
 
 import javax.swing.GrayFilter;
 
+import org.sqlite.SQLiteConfig.TempStore;
+
 import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
 import exceptions.UserNotFoundException;
 import model.dao.GrupaDAO;
 import model.dao.MaterieDAO;
+import model.dao.ProfesorCursDAO;
+import model.dao.ProfesorDAO;
 import model.dao.StudentDAO;
 import model.dao.UserDAO;
 import model.entity.Grupa;
@@ -35,31 +39,10 @@ public class Main {
         }
 
         logger.info("Aplicatia a pornit.");
+
+        ProfesorCursDAO profesorCursDAO = ProfesorCursDAO.getInstance();
+        profesorCursDAO.addProfesorToClass(156, 1, 1);
         
-        UserDAO userDAO = UserDAO.getInstance();
-
-        try {
-            List<User> students = userDAO.getAllUsers("srtudent");
-
-            for (User student : students) {
-                System.out.println(student.toString()); 
-                System.out.println();
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (UserNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MaterieNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (GrupaNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
         logger.info("Aplicatia s-a oprit.");
     }
 }

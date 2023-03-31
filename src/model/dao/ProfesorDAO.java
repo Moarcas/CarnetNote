@@ -1,13 +1,12 @@
 package model.dao;
 
+import java.lang.System.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.plaf.synth.SynthSpinnerUI;
 
 import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
@@ -120,7 +119,7 @@ public class ProfesorDAO {
     }
 
     public void deteleProfesor(int id) throws SQLException, UserNotFoundException {
-        String sql = "DELETE FROM teachers where id = ?";
+        String sql = "DELETE FROM teachers WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, id);
         int affectedRows = stmt.executeUpdate();

@@ -164,7 +164,7 @@ public class UserDAO {
                 break;
             case "profesor":
                 ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
-                // users = profesorDAO.getAllTeachers();
+                users = profesorDAO.getAllTeachers();
                 break;
             case "administrator":
                 AdministratorDAO administratorDAO = AdministratorDAO.getInstance();
