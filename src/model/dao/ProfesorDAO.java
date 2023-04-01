@@ -1,6 +1,5 @@
 package model.dao;
 
-import java.lang.System.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +33,7 @@ public class ProfesorDAO {
     }
 
     // Adauga nou profesor in baza de date
-    public void addProfesor(Profesor profesor) throws SQLException {
+    public void addTeacher(Profesor profesor) throws SQLException {
         String sql = "INSERT INTO teachers (id) VALUES (?)";   
         PreparedStatement stmt = connection.prepareStatement(sql);
         
@@ -42,7 +41,7 @@ public class ProfesorDAO {
         stmt.executeUpdate();
     }
 
-    public Profesor getProfesorById(int id) throws SQLException, MaterieNotFoundException, UserNotFoundException, GrupaNotFoundException {
+    public Profesor getTeacherById(int id) throws SQLException, MaterieNotFoundException, UserNotFoundException, GrupaNotFoundException {
         Profesor profesor = null;
 
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM teachers WHERE id = ?");
@@ -106,7 +105,7 @@ public class ProfesorDAO {
         return teachers;
     }
 
-    public void updateProfesor(int id, Profesor profesor) throws SQLException, UserNotFoundException {
+    public void updateTeacher(int id, Profesor profesor) throws SQLException, UserNotFoundException {
         String sql = "UPDATE teachers SET id = ? WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, id);
@@ -118,7 +117,7 @@ public class ProfesorDAO {
         }
     }
 
-    public void deteleProfesor(int id) throws SQLException, UserNotFoundException {
+    public void deteleTeacher(int id) throws SQLException, UserNotFoundException {
         String sql = "DELETE FROM teachers WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, id);

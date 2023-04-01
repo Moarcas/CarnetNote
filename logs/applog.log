@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2023-03-31T16:17:29.007680Z</date>
-  <millis>1680279449007</millis>
-  <nanos>680000</nanos>
+  <date>2023-04-01T09:10:17.329827Z</date>
+  <millis>1680340217329</millis>
+  <nanos>827000</nanos>
   <sequence>0</sequence>
   <logger>Main</logger>
   <level>INFO</level>
@@ -14,72 +14,22 @@
   <message>Aplicatia a pornit.</message>
 </record>
 <record>
-  <date>2023-03-31T16:17:29.331478Z</date>
-  <millis>1680279449331</millis>
-  <nanos>478000</nanos>
+  <date>2023-04-01T09:10:17.828295Z</date>
+  <millis>1680340217828</millis>
+  <nanos>295000</nanos>
   <sequence>1</sequence>
   <logger>model.dao.UserDAO</logger>
-  <level>SEVERE</level>
+  <level>WARNING</level>
   <class>model.dao.ProfesorCursDAO</class>
-  <method>addProfesorToClass</method>
+  <method>deteleProfesorFromClass</method>
   <thread>1</thread>
-  <message>Nu s-a putut adauga prefesorul cu id-ul 156 in tabela teacher_subject</message>
-  <exception>
-    <message>org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_PRIMARYKEY]  A PRIMARY KEY constraint failed (UNIQUE constraint failed: teacher_subject.idProfesor, teacher_subject.idMaterie, teacher_subject.idGrupa)</message>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1030</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1042</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>execute</method>
-      <line>881</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>executeUpdate</method>
-      <line>922</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3PreparedStatement</class>
-      <method>executeUpdate</method>
-      <line>98</line>
-    </frame>
-    <frame>
-      <class>model.dao.ProfesorCursDAO</class>
-      <method>addProfesorToClass</method>
-      <line>36</line>
-    </frame>
-    <frame>
-      <class>Main</class>
-      <method>main</method>
-      <line>44</line>
-    </frame>
-  </exception>
+  <message>Profesorul cu id-ul 3 de la materia cu id-ul 0 de la grupa cu id-ul 0 nu a fost gasit in tabelul techer_subject</message>
 </record>
 <record>
-  <date>2023-03-31T16:17:29.368347Z</date>
-  <millis>1680279449368</millis>
-  <nanos>347000</nanos>
+  <date>2023-04-01T09:10:17.830578Z</date>
+  <millis>1680340217830</millis>
+  <nanos>578000</nanos>
   <sequence>2</sequence>
-  <logger>model.dao.UserDAO</logger>
-  <level>INFO</level>
-  <class>model.dao.ProfesorCursDAO</class>
-  <method>addProfesorToClass</method>
-  <thread>1</thread>
-  <message>Profesorul cu id-ul 156 a fost adaugat cu succes la materia cu id-ul 1 la grupa cu id-ul 1</message>
-</record>
-<record>
-  <date>2023-03-31T16:17:29.369061Z</date>
-  <millis>1680279449369</millis>
-  <nanos>61000</nanos>
-  <sequence>3</sequence>
   <logger>Main</logger>
   <level>INFO</level>
   <class>Main</class>

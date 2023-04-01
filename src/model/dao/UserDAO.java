@@ -87,7 +87,7 @@ public class UserDAO {
             try {
                 // Adaug profesor in tabela teachers
                 ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
-                profesorDAO.addProfesor((Profesor) user);
+                profesorDAO.addTeacher((Profesor) user);
 
                 logger.info("Profesorul " + user.getNume() + " " + user.getPrenume() + " a fost adaugat cu succes in baza de date.");    
             } catch (SQLException e) {
@@ -128,7 +128,7 @@ public class UserDAO {
                     user = studentDAO.getStudentById(id);
                 } else if (rol.equals("profesor")) {
                     ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
-                    user = profesorDAO.getProfesorById(id);
+                    user = profesorDAO.getTeacherById(id);
                 } else if (rol.equals("administrator")) {
                     AdministratorDAO administratorDAO = AdministratorDAO.getInstance();
                     // user = administratorDAO.getAdministratorById(id);
@@ -194,7 +194,7 @@ public class UserDAO {
         } else if (user instanceof Profesor) {
             try {
                 ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
-                profesorDAO.updateProfesor(id, (Profesor) user);
+                profesorDAO.updateTeacher(id, (Profesor) user);
             } catch (SQLException e) {
                 e.printStackTrace();
                 logger.log(Level.SEVERE, "Nu s-a putut actualiza studentul " + user.getNume() + " " + user.getPrenume() + " in baza de date.", e);        
@@ -247,7 +247,7 @@ public class UserDAO {
         } else if (user instanceof Profesor) {
             try {
                 ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
-                profesorDAO.deteleProfesor(id);
+                profesorDAO.deteleTeacher(id);
             } catch (SQLException e) {
                 e.printStackTrace();
                 logger.log(Level.SEVERE, "Nu s-a putut sterge profesorul " + user.getNume() + " " + user.getPrenume() + " din baza de date.", e);        

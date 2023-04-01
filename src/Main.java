@@ -17,7 +17,7 @@ import exceptions.MaterieNotFoundException;
 import exceptions.UserNotFoundException;
 import model.dao.GrupaDAO;
 import model.dao.MaterieDAO;
-import model.dao.ProfesorCursDAO;
+import model.dao.ProfesorMaterieDAO;
 import model.dao.ProfesorDAO;
 import model.dao.StudentDAO;
 import model.dao.UserDAO;
@@ -40,9 +40,9 @@ public class Main {
 
         logger.info("Aplicatia a pornit.");
 
-        ProfesorCursDAO profesorCursDAO = ProfesorCursDAO.getInstance();
-        profesorCursDAO.addProfesorToClass(156, 1, 1);
+
         
+
         logger.info("Aplicatia s-a oprit.");
     }
 }
