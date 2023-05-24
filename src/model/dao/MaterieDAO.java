@@ -1,9 +1,9 @@
 package model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.management.Descriptor;
 
 import exceptions.MaterieNotFoundException;
 
@@ -31,8 +31,7 @@ public class MaterieDAO {
         return instance;
     }
 
-    // Adaug materie noua in baza de date
-    public void addMaterie(Materie materie) {
+    public void addCourse(Materie materie) {
         try {
             String sql = "INSERT INTO subjectss (nume, descriere) VALUES (?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -47,7 +46,7 @@ public class MaterieDAO {
         }
     }
 
-    public Materie getMaterieById(int id) throws MaterieNotFoundException {
+    public Materie getCourseById(int id) throws MaterieNotFoundException {
         Materie materie = null;
 
         try {
@@ -74,5 +73,32 @@ public class MaterieDAO {
         }
 
         return materie;
+    }
+
+    public List<Materie> getAllCourses() {
+        List<Materie> materii = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM subjects");
+            ResultSet rs = stmt.executeQuery();
+    
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nume = rs.getString("nume");
+                String descriere = rs.getString("descriere");
+                
+                Materie materie = new Materie();
+                materie.setId(id);
+                materie.setNume(nume);
+                materie.setDescriere(descriere);
+
+                materii.add(materie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.log(Level.SEVERE, "Nu s-au putut obtine toate materiile", e);
+        }
+        
+        return materii;
     }
 }

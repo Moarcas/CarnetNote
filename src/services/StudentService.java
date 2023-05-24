@@ -1,5 +1,10 @@
 package services;
 
+import java.util.List;
+
+import model.dao.StudentMaterieDAO;
+import model.entity.Materie;
+
 public class StudentService extends UserService {
     private static StudentService instance = null;
     
@@ -12,6 +17,14 @@ public class StudentService extends UserService {
         return instance;
     }
 
+    public List<Materie> getCourses(int idStudent) {
+        StudentMaterieDAO studentMaterieDAO = StudentMaterieDAO.getInstance();
+        List<Materie> materii = studentMaterieDAO.getCorusesByStudentId(idStudent);
+        return materii;
+    }
 
-    
+    public void addCourse(int idStudent, int idMaterie) {
+        StudentMaterieDAO studentMaterieDAO = StudentMaterieDAO.getInstance();
+        studentMaterieDAO.addStudentToCourse(idStudent, idMaterie);
+    }
 }

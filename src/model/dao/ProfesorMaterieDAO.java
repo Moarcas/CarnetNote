@@ -9,16 +9,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.naming.spi.DirStateFactory.Result;
-import javax.xml.catalog.Catalog;
-
 import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
 import exceptions.UserNotFoundException;
 import model.entity.Grupa;
 import model.entity.Materie;
 import model.entity.Profesor;
-import model.entity.User;
 import model.util.DatabaseConnection;
 
 public class ProfesorMaterieDAO {

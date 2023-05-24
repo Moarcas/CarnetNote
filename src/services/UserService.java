@@ -45,6 +45,15 @@ public abstract class UserService {
 
     public User loginUser(String email, String password) {
         User user = userDAO.getUserByEmail(email);
+
+        if (user == null) {
+            return null;
+        }
+
+        if (!user.getPasswordHash().equals(password)) {
+            return null;
+        }
+
         return user;
     }
 }

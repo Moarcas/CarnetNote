@@ -1,7 +1,10 @@
 package controller;
 
+import java.util.List;
+
 import exceptions.EmailAlreadyUser;
 import exceptions.GrupaNotFoundException;
+import model.entity.Materie;
 import model.entity.Student;
 import services.GrupaService;
 import services.StudentService;
@@ -31,5 +34,13 @@ public class StudentController {
 
     public Student login(String email, String password) {
         return (Student) userService.loginUser(email, password);
+    }
+
+    public List<Materie> getMaterii(int idStudent) {
+        return ((StudentService) userService).getCourses(idStudent);
+    }
+
+    public void enrollInCourse(int idStudent, int idMaterie) {
+        ((StudentService) userService).addCourse(idStudent, idMaterie);
     }
 }

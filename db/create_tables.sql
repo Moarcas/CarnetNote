@@ -39,6 +39,14 @@ CREATE TABLE IF NOT EXISTS teacher_subject (
     FOREIGN KEY (idGrupa) REFERENCES classes(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS student_subject (
+    idStudent INTEGER,
+    idMaterie INTEGER,
+    PRIMARY KEY (idStudent, idMaterie),
+    FOREIGN KEY (idStudent) REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idMaterie) REFERENCES subjects(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS grades (
     id INTEGER PRIMARY KEY AUTOINCREMENT, 
     idStudent INTEGER REFERENCES students(id),

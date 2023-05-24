@@ -62,7 +62,7 @@ public class ProfesorDAO {
                 int idMaterie = rs.getInt("idMaterie");
 
                 // Iau din subjects materia cu id-ul specificat si il bag in lista
-                Materie materie = materieDAO.getMaterieById(idMaterie);
+                Materie materie = materieDAO.getCourseById(idMaterie);
                 profesor.getMateriiPredate().add(materie);
             }
 
