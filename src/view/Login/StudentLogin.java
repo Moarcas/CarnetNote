@@ -2,9 +2,8 @@ package view.Login;
 
 import java.util.Scanner;
 
-import common.ErrorMessage;
-import common.ErrorState;
 import controller.StudentController;
+import model.entity.Student;
 
 public class StudentLogin {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -20,16 +19,16 @@ public class StudentLogin {
         System.out.print("Enter your password: ");
         String password = scanner.next();
 
-        studentController.login(email, password);
+        Student user = studentController.login(email, password);
 
-        ErrorState errorState = ErrorState.getInstance();
-        ErrorMessage errorMessage = errorState.getErrorMessage();
+        System.out.println(user);
 
-        if (errorMessage != null) {
-            System.out.println(ANSI_RED + errorMessage.getErrorMessage() + ANSI_RESET);
+        if (user == null) {
+            System.out.println("Email or password incorrect");
             return;
         }
 
         System.out.println(ANSI_CYAN + "Login successful." + ANSI_RESET);
+        view.StudentMenu.StudentMenu.showMenu(scanner, user);
     }
 }

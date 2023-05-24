@@ -3,17 +3,10 @@ package model.dao;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.plaf.synth.SynthSpinnerUI;
-
 import exceptions.GrupaNotFoundException;
-import exceptions.MaterieNotFoundException;
-import exceptions.UserNotFoundException;
 import model.entity.Grupa;
-import model.entity.Student;
-import model.entity.User;
 import model.util.DatabaseConnection;
 
-import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +44,7 @@ public class GrupaDAO {
         }
     }
 
-    public Grupa getGrupaById(int id) throws GrupaNotFoundException, UserNotFoundException, MaterieNotFoundException {
+    public Grupa getGrupaById(int id) throws GrupaNotFoundException {
         Grupa grupa = null;
 
         try {
@@ -63,26 +56,8 @@ public class GrupaDAO {
                 String nume = rs.getString("nume");
                 int an = rs.getInt("an");
 
-                grupa = new Grupa();
+                grupa = new Grupa(nume, an);
                 grupa.setId(id);
-                grupa.setNume(nume);
-                grupa.setAn(an);
-
-                // Obtin lista cu studentii din grupa
-
-                UserDAO userDAO = UserDAO.getInstance();
-                User student;
-
-                stmt = connection.prepareStatement("SELECT * FROM students WHERE idGrupa = ?");
-                stmt.setInt(1, id);
-                rs = stmt.executeQuery();
-    
-                while (rs.next()) {
-                    int idStudent = rs.getInt("id");
-
-                    student = userDAO.getUserById(idStudent);
-                    grupa.getStudenti().add((Student) student);
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,6 +68,33 @@ public class GrupaDAO {
             throw new GrupaNotFoundException("Grupa " + id + " nu a fost gasita");
         }
         
+        return grupa;
+    }
+
+    public Grupa getGrupaByName(String numeGrupa) throws GrupaNotFoundException {
+        Grupa grupa = null;
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM classes where nume = ?");
+            stmt.setString(1, numeGrupa);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                int an = rs.getInt("an");
+
+                grupa = new Grupa(numeGrupa, an);
+                grupa.setId(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.log(Level.SEVERE, "Nu s-a putut obtine grupa cu numele " + numeGrupa, e);
+        }
+
+        if (grupa == null) {
+            throw new GrupaNotFoundException("Grupa " + numeGrupa + " nu a fost gasita");
+        }
+
         return grupa;
     }
 }

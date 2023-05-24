@@ -1,15 +1,16 @@
 package controller;
 
 import exceptions.EmailAlreadyUser;
+import exceptions.GrupaNotFoundException;
 import model.entity.Student;
-import model.entity.User;
+import services.GrupaService;
 import services.StudentService;
 import services.UserService;
 
 public class StudentController {
     private UserService userService = new StudentService();
     private static StudentController instance = null;
-    
+
     public StudentController() {}
 
     public static synchronized StudentController getInstance() {
@@ -19,14 +20,16 @@ public class StudentController {
         return instance;
     } 
 
-    public void createAccount(String nume, String prenume, String email, String password, String grupa) throws EmailAlreadyUser {
-        User user;
+    public Student createAccount(String nume, String prenume, String email, String password, String numeGrupa) throws EmailAlreadyUser, GrupaNotFoundException {
+        int idGrupa = 0;
+        GrupaService grupaService = GrupaService.getInstance();
+        idGrupa = grupaService.getGrupaByName(numeGrupa).getId();
 
-        user = new Student(nume, prenume, email, password, Integer.parseInt(grupa));
-        userService.registerUser(user);
+        Student user = new Student(nume, prenume, email, password, idGrupa);
+        return (Student) userService.registerUser(user);
     }
 
-    public void login(String email, String password) {
-        userService.loginUser(email, password);
+    public Student login(String email, String password) {
+        return (Student) userService.loginUser(email, password);
     }
 }

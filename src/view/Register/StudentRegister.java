@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import controller.StudentController;
 import exceptions.EmailAlreadyUser;
+import exceptions.GrupaNotFoundException;
+import model.entity.Student;
 
 public class StudentRegister {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -31,13 +33,15 @@ public class StudentRegister {
 
         try {
             // Call the createAccount() function to create a student account
-            studentController.createAccount(firstName, lastName, email, password, classGroup);
+            Student user = studentController.createAccount(firstName, lastName, email, password, classGroup);
             System.out.println(ANSI_GREEN + "Registration successful. Welcome, " + lastName + "!" + ANSI_RESET);
-            view.StudentMenu.StudentMenu.showMenu(scanner);
-
-
+            view.StudentMenu.StudentMenu.showMenu(scanner, user);
         } catch (EmailAlreadyUser e) {
             System.out.println(ANSI_RED + "\nRegistration failed. Email already used.\n" + ANSI_RESET);
+        } catch (GrupaNotFoundException e) {
+            System.out.println(ANSI_RED + "\nRegistration failed Class not found.\n" + ANSI_RESET);
+
+            // TODO: Afiseaza clasaele existente
         }
     }
 }

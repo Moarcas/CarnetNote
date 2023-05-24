@@ -3,8 +3,6 @@ package services;
 import java.sql.SQLException;
 import java.util.List;
 
-import common.ErrorMessage;
-import common.ErrorState;
 import exceptions.EmailAlreadyUser;
 import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
@@ -35,22 +33,18 @@ public abstract class UserService {
         userDAO.deleteUser(id);
     }
 
-    public void registerUser(User user) throws EmailAlreadyUser {
+    public User registerUser(User user) throws EmailAlreadyUser {
         String emailUser= user.getEmail();
 
         if (userDAO.isEmailAlreadyUsed(emailUser)) {
             throw new EmailAlreadyUser("Email already used");
         }
         userDAO.addUser(user);
+        return user;
     }
 
-    public void loginUser(String email, String password) {
+    public User loginUser(String email, String password) {
         User user = userDAO.getUserByEmail(email);
-
-        if (user == null || !user.getPasswordHash().equals(password)) {
-            ErrorMessage error = new ErrorMessage(401, "Email or password incorrect");
-            ErrorState.getInstance().setErrorMessage(error);
-            return;
-        }
+        return user;
     }
 }

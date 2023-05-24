@@ -152,7 +152,7 @@ public class ProfesorMaterieDAO {
                     String nume = rs.getString("nume");
                     int an = rs.getInt("an");
 
-                    Grupa grupa = new Grupa(nume, an, null);
+                    Grupa grupa = new Grupa(nume, an);
                     grupa.setId(id);
 
                     grupe.add(grupa);

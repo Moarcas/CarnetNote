@@ -1,22 +1,13 @@
 package model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Grupa {
     private int id;
     private String nume;
     private int an;
-    private List<Student> studenti;
 
-    public Grupa() {
-        studenti = new ArrayList<>();
-    }
-
-    public Grupa(String nume, int an, List<Student> studenti) {
+    public Grupa(String nume, int an) {
         this.nume = nume;
         this.an = an;
-        this.studenti = studenti;
     }
 
     public int getId() {
@@ -43,21 +34,12 @@ public class Grupa {
         this.an = an;
     }
 
-    public List<Student> getStudenti() {
-        return this.studenti;
-    }
-
-    public void setStudenti(List<Student> studenti) {
-        this.studenti = studenti;
-    }
-
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
             ", nume='" + getNume() + "'" +
             ", an='" + getAn() + "'" +
-            ", studenti='" + getStudenti() + "'" +
             "}";
     }
 
