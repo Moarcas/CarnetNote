@@ -29,11 +29,24 @@ CREATE TABLE IF NOT EXISTS classes (
     an INTEGER NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS teacher_subject ( -- vreau sa imi dea eroare cand adaug aici un profesor care nu exista in tabela teachers
-    idProfesor INTEGER REFERENCES teachers(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    idMaterie INTEGER REFERENCES subjects(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    idGrupa INTEGER REFERENCES classes(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (idProfesor, idMaterie, idGrupa) 
+CREATE TABLE IF NOT EXISTS teacher_subject (
+    idProfesor INTEGER,
+    idMaterie INTEGER,
+    idGrupa INTEGER,
+    PRIMARY KEY (idProfesor, idMaterie, idGrupa),
+    FOREIGN KEY (idProfesor) REFERENCES teachers(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idMaterie) REFERENCES subjects(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idGrupa) REFERENCES classes(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS grades (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    idStudent INTEGER REFERENCES students(id),
+    idMaterie INTEGER REFERENCES subjects(id),
+    nota REAL NOT NULL,
+    date TEXT,
+    FOREIGN KEY (idStudent) REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idMaterie) REFERENCES subjects(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -41,13 +54,6 @@ CREATE TABLE IF NOT EXISTS teacher_subject ( -- vreau sa imi dea eroare cand ada
 --     id INTEGER PRIMAY KEY users(id) REFERENCES users(id)
 -- );
 
-
--- CREATE TABLE IF NOT EXISTS grades (
---     id INTEGER PRIMARY KEY AUTOINCREMENT, 
---     idStudent INTEGER REFERENCES students(id) NOT NULL ON DELETE CASCADE ON UPDATE CASCADE,
---     idMaterie INTEGER REFERENCES subjects(id) NOT NULL ON DELETE CASCADE ON UPDATE CASCADE,
---     nota REAL NOT NULL
--- );
 
 
 

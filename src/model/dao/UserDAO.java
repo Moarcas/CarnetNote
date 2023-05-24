@@ -61,23 +61,23 @@ public class UserDAO {
         user.setId(rs.getInt(1));        
     }
 
-    public static void addUser(User user) {
+    public void addUser(User user) {
         try {
             // Adauga user in tabela users
             addUserToUsersTable(user);
         } catch (SQLException e) {
-            System.err.println("Exceptie SQL: " + e.getMessage());
             e.printStackTrace();
             logger.log(Level.SEVERE, "Nu s-a putut adauga studentul " + user.getNume() + " " + user.getPrenume() + " in table users.", e);
         }
         
         if (user instanceof Student) {
             try {
+             
                 // Adauga student in tabela students
                 StudentDAO studentDAO = StudentDAO.getInstance();
                 studentDAO.addStudent((Student) user);
-
-                logger.info("Studentul " + user.getNume() + " " + user.getPrenume() + " a fost adaugat cu succes in baza de date.");    
+                logger.info("Studentul " + user.getNume() + " " + user.getPrenume() + " a fost adaugat cu succes in baza de date.");     
+           
             } catch (SQLException e) {
                 System.err.println("Exceptie SQL: " + e.getMessage());
                 e.printStackTrace();
@@ -85,23 +85,24 @@ public class UserDAO {
             }
         } else if (user instanceof Profesor) {
             try {
+               
                 // Adaug profesor in tabela teachers
                 ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
-                profesorDAO.addTeacher((Profesor) user);
-
+                profesorDAO.addTeacher((Profesor) user);   
                 logger.info("Profesorul " + user.getNume() + " " + user.getPrenume() + " a fost adaugat cu succes in baza de date.");    
+           
             } catch (SQLException e) {
-                System.err.println("Exceptie SQL: " + e.getMessage());
                 e.printStackTrace();
                 logger.log(Level.SEVERE, "Nu s-a putut adauga profesorul " + user.getNume() + " " + user.getPrenume() + " in baza de date.", e);
             }
         } else if (user instanceof Administrator) {
             try {
+                
                 // Adaug admin in tabela admins
                 AdministratorDAO administratorDAO = AdministratorDAO.getInstance();
                 administratorDAO.addAdministrator((Administrator) user);
-
                 logger.info("Administratorul " + user.getNume() + " " + user.getPrenume() + " a fost adaugat cu succes in baza de date.");
+            
             } catch (SQLException e) {
                 e.printStackTrace();
                 logger.log(Level.SEVERE, "Nu s-a putut adauga administratorul " + user.getNume() + " " + user.getPrenume() + " in baza de date.", e);
@@ -153,6 +154,47 @@ public class UserDAO {
 
         return user;
     }
+    
+    public User getUserByEmail(String email) {
+        User user = null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM USERS WHERE email = ?");
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+        
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String nume = rs.getString("nume");
+                String prenume = rs.getString("prenume");
+                String passwordHash = rs.getString("passwordHash");
+                String rol = rs.getString("rol");
+
+                if (rol.equals("student")) {
+                    StudentDAO studentDAO = StudentDAO.getInstance();
+                    user = studentDAO.getStudentById(id);
+                } else if (rol.equals("profesor")) {
+                    ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
+                    user = profesorDAO.getTeacherById(id);
+                } else if (rol.equals("administrator")) {
+                    AdministratorDAO administratorDAO = AdministratorDAO.getInstance();
+                    // user = administratorDAO.getAdministratorById(id);
+                }
+
+                user.setId(id);
+                user.setNume(nume);
+                user.setPrenume(prenume);
+                user.setEmail(email);
+                user.setPasswordHash(passwordHash);
+                user.setRol(rol);
+            }
+        } catch (SQLException | MaterieNotFoundException | UserNotFoundException | GrupaNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Nu s-a putut obtine utilizatorul cu email-ul " + email);
+            logger.log(Level.SEVERE, "Nu s-a putut obtine utilizatorul cu email-ul " + email, e);
+        } 
+        return user;
+    } 
+
 
     public List<User> getAllUsers(String userType) throws SQLException, UserNotFoundException, MaterieNotFoundException, GrupaNotFoundException {
         List<User> users = new ArrayList<>();
@@ -282,8 +324,21 @@ public class UserDAO {
         }
         logger.info("User-ul cu id-ul " + id + " a fost sters cu succes din baza de date");
     }
+
+    public boolean isEmailAlreadyUsed(String email) {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.log(Level.SEVERE, "Nu s-a putut verifica daca adresa de email este deja folosita", e);
+        }
+        return false;
+    }
+
 }
-
-
-
-

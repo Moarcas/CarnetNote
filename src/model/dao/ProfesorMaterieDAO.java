@@ -24,7 +24,7 @@ import model.util.DatabaseConnection;
 public class ProfesorMaterieDAO {
     private static ProfesorMaterieDAO instance = null;
     private Connection connection;
-    private static final Logger logger = Logger.getLogger(UserDAO.class.getName());
+    private static final Logger logger = Logger.getLogger(ProfesorMaterieDAO.class.getName());
 
     private ProfesorMaterieDAO() {
         connection = DatabaseConnection.getInstance().getConnection();
@@ -47,15 +47,14 @@ public class ProfesorMaterieDAO {
             stmt.setInt(2, idMaterie);
             stmt.setInt(3, idGrupa);
             stmt.executeUpdate();
+            logger.info("Profesorul cu id-ul " + idProfesor + " a fost adaugat cu succes la materia cu id-ul " + idMaterie + " la grupa cu id-ul " + idGrupa);
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.log(Level.SEVERE, "Nu s-a putut adauga prefesorul cu id-ul " + idProfesor + " in tabela teacher_subject", e);
+            logger.log(Level.SEVERE, "Nu s-a putut adauga profesorul cu id-ul " + idProfesor + " in tabela teacher_subject", e);
         }
-
-        logger.info("Profesorul cu id-ul " + idProfesor + " a fost adaugat cu succes la materia cu id-ul " + idMaterie + " la grupa cu id-ul " + idGrupa);
     }
 
-    public void deteleTeacherFromClass(int idProfesor, int idGrupa, int idMaterie) {
+    public void deleteTeacherFromClass(int idProfesor, int idGrupa, int idMaterie) {
         String sql = "DELETE FROM teacher_subject WHERE idProfesor = ? AND idGrupa = ? AND idMaterie = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -79,7 +78,7 @@ public class ProfesorMaterieDAO {
     public List<Profesor> getTeachersBySubject(int idMaterie) throws SQLException, UserNotFoundException {
         List<Profesor> profesori = new ArrayList<>();
     
-        String sql = "SELECT DISTINCT t.nume, t.prenume t.email FROM teacher_subject ts JOIN teachers t ON ts.idProfesor = t.id WHERE ts.idMaterie = ? ";
+        String sql = "SELECT u.nume, u.prenume, u.email FROM users u JOIN teacher_subject ts ON ts.idProfesor = u.id WHERE ts.idMaterie = ?";
     
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idMaterie);

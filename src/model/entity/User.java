@@ -89,16 +89,6 @@ public abstract class User {
         return this;
     }
 
-    public User passwordHash(String passwordHash) {
-        setPasswordHash(passwordHash);
-        return this;
-    }
-
-    public User rol(String rol) {
-        setRol(rol);
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
