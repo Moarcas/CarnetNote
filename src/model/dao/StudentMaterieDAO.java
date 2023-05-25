@@ -91,7 +91,7 @@ public class StudentMaterieDAO {
                 Materie materie = MaterieDAO.getInstance().getCourseById(idMaterie);
                 materii.add(materie);
             }
-        } catch (SQLException | MaterieNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             logger.log(Level.SEVERE, "Nu s-au putut obtine materiile studentului cu id-ul" + id, e);
         } 

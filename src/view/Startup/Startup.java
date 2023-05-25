@@ -20,7 +20,7 @@ public class Startup {
             System.out.println("╠═══════════════════════════════════════╣");
             System.out.println("║ 1. " + ANSI_YELLOW + "Login" + ANSI_CYAN + "                              ║");
             System.out.println("║ 2. " + ANSI_YELLOW + "Register" + ANSI_CYAN + "                           ║");
-            System.out.println("║ 0. " + ANSI_RED + "Ieșire" + ANSI_CYAN + "                             ║");
+            System.out.println("║ 0. " + ANSI_RED + "Exit" + ANSI_CYAN + "                               ║");
             System.out.println("╚═══════════════════════════════════════╝" + ANSI_RESET);
 
             System.out.print("Selectați o opțiune: ");
@@ -41,10 +41,10 @@ public class Startup {
                     view.Register.Register.registerMenu(scanner);
                     break;
                 case 0:
-                    System.out.println("La revedere!");
+                    System.out.println("\nGood bye!\n");
                     break;
                 default:
-                    System.out.println(ANSI_RED + "Opțiune invalidă. Vă rugăm să selectați o opțiune validă." + ANSI_RESET);
+                    System.out.println(ANSI_RED + "\nInvaid choice. Please try again.\n" + ANSI_RESET);
                     break;
             }
         } while (option != 0);

@@ -52,9 +52,7 @@ CREATE TABLE IF NOT EXISTS grades (
     idStudent INTEGER REFERENCES students(id),
     idMaterie INTEGER REFERENCES subjects(id),
     nota REAL NOT NULL,
-    date TEXT,
-    FOREIGN KEY (idStudent) REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (idMaterie) REFERENCES subjects(id) ON DELETE CASCADE ON UPDATE CASCADE
+    date TEXT
 );
 
 

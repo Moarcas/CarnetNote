@@ -46,7 +46,7 @@ public class MaterieDAO {
         }
     }
 
-    public Materie getCourseById(int id) throws MaterieNotFoundException {
+    public Materie getCourseById(int id) {
         Materie materie = null;
 
         try {
@@ -66,10 +66,6 @@ public class MaterieDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.log(Level.SEVERE, "Nu s-a putut obtine materia cu id-ul" + id, e);
-        }
-       
-        if (materie == null) {
-            throw new MaterieNotFoundException("Materia cu id-ul " + id + " nu a fost gasita");
         }
 
         return materie;
@@ -101,4 +97,25 @@ public class MaterieDAO {
         
         return materii;
     }
+
+    public List<Materie> getCoursesByStudent(int idStudent) {
+        List<Materie> materii = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM student_subject WHERE idStudent = ?");
+
+            stmt.setInt(1, idStudent);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idMaterie = rs.getInt("idMaterie");
+                Materie materie = getCourseById(idMaterie);
+                materii.add(materie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.log(Level.SEVERE, "Nu s-au putut obtine toate materiile", e);
+        }
+        return materii;
+    } 
 }

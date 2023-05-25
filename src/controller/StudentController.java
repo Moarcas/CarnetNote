@@ -13,7 +13,7 @@ import services.StudentService;
 import services.UserService;
 
 public class StudentController {
-    private UserService userService = new StudentService();
+    private UserService userService = StudentService.getInstance();
     private static StudentController instance = null;
 
     public StudentController() {}

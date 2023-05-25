@@ -24,11 +24,11 @@ public class StudentLogin {
         System.out.println(user);
 
         if (user == null) {
-            System.out.println("Email or password incorrect");
+            System.out.println(ANSI_RED + "\nEmail or password incorrect\n" + ANSI_RESET);
             return;
         }
 
-        System.out.println(ANSI_CYAN + "Login successful." + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "\nLogin successful.\n" + ANSI_RESET);
         view.StudentMenu.StudentMenu.showMenu(scanner, user);
     }
 }

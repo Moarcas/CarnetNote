@@ -2,7 +2,6 @@ package services;
 
 import java.util.List;
 
-import exceptions.MaterieNotFoundException;
 import model.dao.MaterieDAO;
 import model.entity.Materie;
 
@@ -25,11 +24,15 @@ public class MaterieService {
         materieDAO.addCourse(materie);
     }    
 
-    public Materie getCourseById(int id) throws MaterieNotFoundException {
+    public Materie getCourseById(int id) {
         return materieDAO.getCourseById(id);
     }
 
     public List<Materie> getAllCourses() {
         return materieDAO.getAllCourses();
+    }
+
+    public List<Materie> getCoursesByStudent(int idStudent) {
+        return materieDAO.getCoursesByStudent(idStudent);
     }
 }

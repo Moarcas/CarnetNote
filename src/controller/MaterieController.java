@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import exceptions.MaterieNotFoundException;
 import model.entity.Materie;
 import services.MaterieService;
 
@@ -24,11 +23,15 @@ public class MaterieController {
         materieService.addCourse(materie);
     }
     
-    public Materie getCourseById(int id) throws MaterieNotFoundException {
+    public Materie getCourseById(int id)  {
         return materieService.getCourseById(id);
     }
 
     public List<Materie> getAllCourses() {
         return materieService.getAllCourses();
+    }
+
+    public List<Materie> getCoursesByStudent(int idStudent) {
+        return materieService.getCoursesByStudent(idStudent);
     }
 }   

@@ -14,7 +14,7 @@ public class ShowStudentCourses {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RED = "\u001B[31m";
 
-    public static void showClasses(Student user) {
+    public static void showCourses(Student user) {
         StudentController studentController = StudentController.getInstance();
         List<Materie> materii = studentController.getMaterii(user.getId());
 
@@ -24,7 +24,7 @@ public class ShowStudentCourses {
         }
 
         System.out.println(ANSI_CYAN + "----------------------------------------");
-        System.out.println("Classes for student: " + user.getNume() + " " + user.getPrenume());
+        System.out.println("Courses for student: " + user.getNume() + " " + user.getPrenume());
         System.out.println("----------------------------------------" + ANSI_RESET);
 
         for (Materie materie : materii) {

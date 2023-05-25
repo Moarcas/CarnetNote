@@ -36,6 +36,7 @@ public class StudentMenu {
             switch (choice) {
                 case 1:
                     System.out.println(ANSI_CYAN + "Enroll in Coruse" + ANSI_RESET);
+                    
                     // Show all courses
                     MaterieController materieController = MaterieController.getInstance();
                     List<Materie> materii = materieController.getAllCourses();
@@ -47,7 +48,7 @@ public class StudentMenu {
                     int courseNumber = scanner.nextInt();
 
                     if (courseNumber < 1 || courseNumber > materii.size()) {
-                        System.out.println(ANSI_CYAN + "Invalid choice. Please try again." + ANSI_RESET);
+                        System.out.println(ANSI_CYAN + "\nInvalid choice. Please try again.\n" + ANSI_RESET);
                         break;
                     }
 
@@ -62,14 +63,33 @@ public class StudentMenu {
                         System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
                     }
 
-                    break;
+                break;
                 case 2:
-                    System.out.println(ANSI_CYAN + "View Classes" + ANSI_RESET);
-                    // Implementează logica pentru vizualizarea notelor
+                    System.out.println(ANSI_CYAN + "View Grades" + ANSI_RESET);
+
+                    // Show all courses the user is enrolled in
+                    materieController = MaterieController.getInstance();
+                    List<Materie> materiiUser = materieController.getCoursesByStudent(user.getId());
+                    view.Courses.ShowCourses.showCourses(materiiUser);
+
+                    // Ask user to choose a course
+                    System.out.print("Enter the number of the course you want to view grades for: ");
+
+                    courseNumber = scanner.nextInt();
+                    
+                    if (courseNumber < 1 || courseNumber > materiiUser.size()) {
+                        System.out.println(ANSI_CYAN + "\nInvalid choice. Please try again.\n" + ANSI_RESET);
+                        break;
+                    }
+
+                    // Show grades for course
+                    materie = materiiUser.get(courseNumber - 1);
+                    view.StudentMenu.ShowGrades.showGrades(user.getId(), materie);
+
                     break;
                 case 3:
                     System.out.println(ANSI_CYAN + "View courses" + ANSI_RESET);
-                    view.StudentMenu.ShowStudentCourses.showClasses(user);
+                    view.StudentMenu.ShowStudentCourses.showCourses(user);
                     break;
                 case 4:
                     System.out.println(ANSI_CYAN + "Show profile" + ANSI_RESET);
@@ -77,10 +97,10 @@ public class StudentMenu {
                     break;
                 case 0:
                     exit = true;
-                    System.out.println(ANSI_CYAN + "Exiting Student Menu. Goodbye!" + ANSI_RESET);
+                    System.out.println(ANSI_CYAN + "\nLogging out...\n" + ANSI_RESET);
                     break;
                 default:
-                    System.out.println(ANSI_CYAN + "Invalid choice. Please try again." + ANSI_RESET);
+                    System.out.println(ANSI_CYAN + "\nInvalid choice. Please try again.\n" + ANSI_RESET);
             }
         }
     }
