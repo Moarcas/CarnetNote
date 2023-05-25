@@ -8,7 +8,7 @@ import services.MaterieService;
 
 public class MaterieController {
     private static MaterieController instance = null;
-    private MaterieService materieService;
+    private MaterieService materieService = MaterieService.getInstance();
 
     public MaterieController() {}
 
@@ -29,13 +29,6 @@ public class MaterieController {
     }
 
     public List<Materie> getAllCourses() {
-        System.out.println("MaterieController.getAllCourses()");
-        List<Materie> materii = materieService.getAllCourses();
-        if (materii == null) {
-            System.out.println("MaterieController.getAllCourses() -> materii == null");
-        } else {
-            System.out.println("MaterieController.getAllCourses() -> materii != null");
-        }
         return materieService.getAllCourses();
     }
 }   

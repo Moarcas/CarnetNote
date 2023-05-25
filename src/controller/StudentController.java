@@ -2,8 +2,10 @@ package controller;
 
 import java.util.List;
 
+import exceptions.DatabaseException;
 import exceptions.EmailAlreadyUser;
 import exceptions.GrupaNotFoundException;
+import exceptions.StudentAlreadyEnrolledException;
 import model.entity.Materie;
 import model.entity.Student;
 import services.GrupaService;
@@ -40,7 +42,7 @@ public class StudentController {
         return ((StudentService) userService).getCourses(idStudent);
     }
 
-    public void enrollInCourse(int idStudent, int idMaterie) {
+    public void enrollInCourse(int idStudent, int idMaterie) throws StudentAlreadyEnrolledException, DatabaseException {
         ((StudentService) userService).addCourse(idStudent, idMaterie);
     }
 }

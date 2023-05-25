@@ -30,7 +30,6 @@ public class MaterieService {
     }
 
     public List<Materie> getAllCourses() {
-        System.out.println("MaterieService.getAllCourses()");
         return materieDAO.getAllCourses();
     }
 }

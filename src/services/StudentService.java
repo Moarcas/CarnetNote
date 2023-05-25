@@ -2,8 +2,11 @@ package services;
 
 import java.util.List;
 
+import exceptions.DatabaseException;
+import exceptions.StudentAlreadyEnrolledException;
 import model.dao.StudentMaterieDAO;
 import model.entity.Materie;
+import model.entity.Student;
 
 public class StudentService extends UserService {
     private static StudentService instance = null;
@@ -23,7 +26,7 @@ public class StudentService extends UserService {
         return materii;
     }
 
-    public void addCourse(int idStudent, int idMaterie) {
+    public void addCourse(int idStudent, int idMaterie) throws StudentAlreadyEnrolledException, DatabaseException {
         StudentMaterieDAO studentMaterieDAO = StudentMaterieDAO.getInstance();
         studentMaterieDAO.addStudentToCourse(idStudent, idMaterie);
     }
