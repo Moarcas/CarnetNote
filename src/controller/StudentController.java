@@ -35,7 +35,12 @@ public class StudentController {
     }
 
     public Student login(String email, String password) {
-        return (Student) userService.loginUser(email, password);
+        try {
+            return (Student) userService.loginUser(email, password);
+        } catch (ClassCastException e) {
+            // Au fost introduce credentialele unui profesor
+            return null;
+        }
     }
 
     public List<Materie> getMaterii(int idStudent) {
@@ -44,5 +49,9 @@ public class StudentController {
 
     public void enrollInCourse(int idStudent, int idMaterie) throws StudentAlreadyEnrolledException, DatabaseException {
         ((StudentService) userService).addCourse(idStudent, idMaterie);
+    }
+
+    public List<Student> getStudentsByMaterieAndGrupa(int idMaterie, int grupa) throws DatabaseException {
+        return ((StudentService) userService).getStudentsByMaterieAndGrupa(idMaterie, grupa);
     }
 }

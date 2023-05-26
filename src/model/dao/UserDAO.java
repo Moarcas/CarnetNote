@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import exceptions.DatabaseException;
 import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
 import exceptions.UserNotFoundException;
@@ -85,7 +86,6 @@ public class UserDAO {
             }
         } else if (user instanceof Profesor) {
             try {
-               
                 // Adaug profesor in tabela teachers
                 ProfesorDAO profesorDAO = ProfesorDAO.getInstance();
                 profesorDAO.addTeacher((Profesor) user);   
@@ -187,10 +187,9 @@ public class UserDAO {
                 user.setPasswordHash(passwordHash);
                 user.setRol(rol);
             }
-        } catch (SQLException | MaterieNotFoundException | UserNotFoundException | GrupaNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("Nu s-a putut obtine utilizatorul cu email-ul " + email);
+        } catch (SQLException e) {
             logger.log(Level.SEVERE, "Nu s-a putut obtine utilizatorul cu email-ul " + email, e);
+            throw new DatabaseException("Nu s-a putut obtine utilizatorul cu email-ul " + email, e);
         } 
         return user;
     } 

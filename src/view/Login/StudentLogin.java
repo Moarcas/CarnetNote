@@ -20,9 +20,7 @@ public class StudentLogin {
         String password = scanner.next();
 
         Student user = studentController.login(email, password);
-
-        System.out.println(user);
-
+        
         if (user == null) {
             System.out.println(ANSI_RED + "\nEmail or password incorrect\n" + ANSI_RESET);
             return;

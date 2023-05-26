@@ -1,8 +1,11 @@
 package model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import exceptions.DatabaseException;
 import exceptions.GrupaNotFoundException;
 import model.entity.Grupa;
 import model.util.DatabaseConnection;
@@ -28,7 +31,6 @@ public class GrupaDAO {
         return instance;
     }
 
-    // Adaug grupa noua in baza de date
     public void addGrupa(Grupa grupa) {
         try {
             String sql = "INSERT INTO classes (nume, an) VALUES (?, ?)";
@@ -39,12 +41,12 @@ public class GrupaDAO {
             stmt.executeUpdate();
             logger.info("Grupa " + grupa.getNume() + " a fost adaugata cu succes in baza de date");
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.log(Level.SEVERE, "Nu s-a putut adauga grupa " + grupa.getNume() + " in baza de date", e);
+            throw new DatabaseException("Nu s-a putut adauga grupa " + grupa.getNume() + " in baza de date", e);
         }
     }
 
-    public Grupa getGrupaById(int id) throws GrupaNotFoundException {
+    public Grupa getGrupaById(int id) throws DatabaseException {
         Grupa grupa = null;
 
         try {
@@ -60,14 +62,10 @@ public class GrupaDAO {
                 grupa.setId(id);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.log(Level.SEVERE, "Nu s-a putut obtine grupa cu id-ul " + id, e);
+            throw new DatabaseException("Nu s-a putut obtine grupa cu id-ul " + id, e);
         }
 
-        if (grupa == null) {
-            throw new GrupaNotFoundException("Grupa " + id + " nu a fost gasita");
-        }
-        
         return grupa;
     }
 
@@ -87,14 +85,32 @@ public class GrupaDAO {
                 grupa.setId(id);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.log(Level.SEVERE, "Nu s-a putut obtine grupa cu numele " + numeGrupa, e);
+            throw new DatabaseException("Nu s-a putut obtine grupa cu numele " + numeGrupa, e);
         }
-
-        if (grupa == null) {
-            throw new GrupaNotFoundException("Grupa " + numeGrupa + " nu a fost gasita");
-        }
-
         return grupa;
+    }
+
+    public List<Grupa> getAllClasses() {
+        List<Grupa> grupe = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM classes");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nume = rs.getString("nume");
+                int an = rs.getInt("an");
+
+                Grupa grupa = new Grupa(nume, an);
+                grupa.setId(id);
+                grupe.add(grupa);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Nu s-au putut obtine grupele", e);
+            throw new DatabaseException("Nu s-au putut obtine grupele", e);
+        }
+        return grupe;
     }
 }

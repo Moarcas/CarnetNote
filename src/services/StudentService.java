@@ -30,4 +30,10 @@ public class StudentService extends UserService {
         StudentMaterieDAO studentMaterieDAO = StudentMaterieDAO.getInstance();
         studentMaterieDAO.addStudentToCourse(idStudent, idMaterie);
     }
+
+    public List<Student> getStudentsByMaterieAndGrupa(int idMaterie, int grupa) throws DatabaseException {
+        StudentMaterieDAO studentMaterieDAO = StudentMaterieDAO.getInstance();
+        List<Student> students = studentMaterieDAO.getStudentsByCourseAndGrupa(idMaterie, grupa);
+        return students;
+    }
 }

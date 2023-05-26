@@ -10,8 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.DatabaseException;
+import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
 import exceptions.StudentAlreadyEnrolledException;
+import exceptions.UserNotFoundException;
 import model.entity.Materie;
 import model.entity.Student;
 import model.util.DatabaseConnection;
@@ -116,5 +118,27 @@ public class StudentMaterieDAO {
             logger.log(Level.SEVERE, "Nu s-au putut obtine studentii materiei cu id-ul" + id, e);
         } 
         return students;
+    }
+
+    public List<Student> getStudentsByCourseAndGrupa(int idMaterie, int idGrupa) throws DatabaseException {
+        List<Student> students = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM student_subject WHERE idMaterie = ?");
+            stmt.setInt(1, idMaterie);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idStudent = rs.getInt("idStudent");
+                Student student = (Student) UserDAO.getInstance().getUserById(idStudent);
+                if (student.getIdGrupa() == idGrupa) {
+                    students.add(student);
+                }
+            }
+        } catch (SQLException | UserNotFoundException | MaterieNotFoundException | GrupaNotFoundException  e) {
+            logger.log(Level.SEVERE, "Nu s-au putut obtine studentii materiei cu id-ul" + idMaterie, e);
+            throw new DatabaseException("\nDatabase error\n.", e);
+        } 
+        return students;    
     }
 }

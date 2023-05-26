@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import exceptions.DatabaseException;
 import exceptions.GrupaNotFoundException;
 import exceptions.MaterieNotFoundException;
 import exceptions.UserNotFoundException;
@@ -32,7 +35,6 @@ public class ProfesorDAO {
         return instance;
     }
 
-    // Adauga nou profesor in baza de date
     public void addTeacher(Profesor profesor) throws SQLException {
         String sql = "INSERT INTO teachers (id) VALUES (?)";   
         PreparedStatement stmt = connection.prepareStatement(sql);
@@ -41,51 +43,35 @@ public class ProfesorDAO {
         stmt.executeUpdate();
     }
 
-    public Profesor getTeacherById(int id) throws SQLException, MaterieNotFoundException, UserNotFoundException, GrupaNotFoundException {
+    public Profesor getTeacherById(int id) throws DatabaseException {
         Profesor profesor = null;
 
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM teachers WHERE id = ?");
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
+        Set<Materie> materii = new HashSet<>();
+        Set <Grupa> grupe = new HashSet<>();
 
-        if (rs.next()) {
-            profesor = new Profesor();
-            
-            // Iau din tabelul techer_subject id-urile materiilor predate
-            MaterieDAO materieDAO = MaterieDAO.getInstance();
-            stmt = connection.prepareStatement("SELECT DISTINCT idMaterie FROM teacher_subject WHERE idProfesor = ?");
-            
+        MaterieDAO materieDAO = MaterieDAO.getInstance();
+        GrupaDAO grupaDAO = GrupaDAO.getInstance();
+
+        // I want from teacher_subject courses and groups where he teaches
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM teacher_subject WHERE idProfesor = ?")) {
             stmt.setInt(1, id);
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 int idMaterie = rs.getInt("idMaterie");
-
-                // Iau din subjects materia cu id-ul specificat si il bag in lista
-                Materie materie = materieDAO.getCourseById(idMaterie);
-                profesor.getMateriiPredate().add(materie);
-            }
-
-            // Iau din tabeul tacher_subject grupele la care preda
-            GrupaDAO grupaDAO = GrupaDAO.getInstance();
-            stmt = connection.prepareStatement("SELECT DISTINCT idGrupa FROM teacher_subject WHERE idProfesor = ?");
-
-            stmt.setInt(1, id);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
                 int idGrupa = rs.getInt("idGrupa");
 
-                // Iau din classes grupa cu id-ul specificat si o bag in lista
+                Materie materie = materieDAO.getCourseById(idMaterie);
                 Grupa grupa = grupaDAO.getGrupaById(idGrupa);
-                profesor.getGrupe().add(grupa);
-            }
-        }
-    
-        if (profesor == null) {
-            throw new UserNotFoundException("Profesorul cu id-ul " + id + " nu a fost gasit");
-        }
 
+                materii.add(materie);
+                grupe.add(grupa);
+            }            
+        } catch (SQLException e) {
+            throw new DatabaseException("Eroare la interogarea bazei de date", e);
+        } 
+        
+        profesor = new Profesor(materii, grupe);
         return profesor;
     }
 

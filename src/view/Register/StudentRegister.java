@@ -29,11 +29,11 @@ public class StudentRegister {
         String password = scanner.next();
 
         System.out.print("Enter your class: ");
-        String classGroup = scanner.next();
+        String className = scanner.next();
 
         try {
             // Call the createAccount() function to create a student account
-            Student user = studentController.createAccount(firstName, lastName, email, password, classGroup);
+            Student user = studentController.createAccount(firstName, lastName, email, password, className);
             System.out.println(ANSI_GREEN + "Registration successful. Welcome, " + lastName + "!" + ANSI_RESET);
             view.StudentMenu.StudentMenu.showMenu(scanner, user);
         } catch (EmailAlreadyUser e) {

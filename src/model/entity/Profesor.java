@@ -1,45 +1,45 @@
 package model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Profesor extends User {
     // Materiile la care preda
-    private List<Materie> materiiPredate;
+    private Set<Materie> materiiPredate;
 
     // Grupele la care preada
-    private List<Grupa> grupe;
+    private Set<Grupa> grupe;
 
-    public Profesor() {
-        materiiPredate = new ArrayList<>();
-        grupe = new ArrayList<>();
+    public Profesor() { 
+        materiiPredate = new HashSet<>();
+        grupe = new HashSet<>();
     }
 
-    public Profesor(List<Materie> materiiPredate, List<Grupa> grupe) {
+    public Profesor(Set<Materie> materiiPredate, Set<Grupa> grupe) {
         this.materiiPredate = materiiPredate;
         this.grupe = grupe;
     }
 
-    public Profesor(String nume, String prenume, String email, String passwordHash, List<Materie> materiiPredate, List<Grupa> grupe) {
+    public Profesor(String nume, String prenume, String email, String passwordHash) {
         super(nume, prenume, email, passwordHash, "profesor");
-        this.materiiPredate = materiiPredate;
-        this.grupe = grupe;
+        materiiPredate = new HashSet<>();
+        grupe = new HashSet<>();
     }
 
-    public List<Materie> getMateriiPredate() {
+    public Set<Materie> getMateriiPredate() {
         return this.materiiPredate;
     }
 
-    public void setMateriiPredate(List<Materie> materiiPredate) {
-        this.materiiPredate = materiiPredate;
+    public void setMateriiPredate(Set<Materie> materiiPredate) {
+        this.materiiPredate = Set.copyOf(materiiPredate);
     }
 
-    public List<Grupa> getGrupe() {
+    public Set<Grupa> getGrupe() {
         return this.grupe;
     }
 
-    public void setGrupe(List<Grupa> grupe) {
-        this.grupe = grupe;
+    public void setGrupe(Set<Grupa> grupe) {
+        this.grupe = Set.copyOf(grupe);
     }
 
     @Override

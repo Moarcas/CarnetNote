@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.GrupaNotFoundException;
+import exceptions.DatabaseException;
 import exceptions.MaterieNotFoundException;
+import exceptions.ProfesorAlreadyEnrolled;
 import exceptions.UserNotFoundException;
 import model.entity.Grupa;
 import model.entity.Materie;
@@ -33,7 +34,7 @@ public class ProfesorMaterieDAO {
         return instance;
     }
 
-    public void addTeacherToClass(int idProfesor, int idGrupa, int idMaterie) {
+    public void addTeacherToClass(int idProfesor, int idGrupa, int idMaterie) throws ProfesorAlreadyEnrolled, DatabaseException {
         String sql = "INSERT INTO teacher_subject (idProfesor, idMaterie, idGrupa) VALUES (?, ?, ?)";
         
         try {
@@ -45,8 +46,15 @@ public class ProfesorMaterieDAO {
             stmt.executeUpdate();
             logger.info("Profesorul cu id-ul " + idProfesor + " a fost adaugat cu succes la materia cu id-ul " + idMaterie + " la grupa cu id-ul " + idGrupa);
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.log(Level.SEVERE, "Nu s-a putut adauga profesorul cu id-ul " + idProfesor + " in tabela teacher_subject", e);
+            if (e.getErrorCode() == 19) {
+                // Cheie primară duplicată
+                logger.log(Level.WARNING, "Profesorul cu id-ul " + idProfesor + " este deja înscris la materia cu id-ul " + idMaterie + " la grupa cu id-ul " + idGrupa, e);
+                throw new ProfesorAlreadyEnrolled("\nProfesorul este deja inregistrat la aceasta materie\n");
+            } else {
+                // Alte excepții SQL
+                logger.log(Level.SEVERE, "Nu s-a putut adauga profesorul cu id-ul " + idProfesor + " la materia cu id-ul " + idMaterie + " la grupa cu id-ul " + idGrupa, e);
+                throw new DatabaseException("\nDatabase error\n.", e);
+            }
         }
     }
 
@@ -74,7 +82,7 @@ public class ProfesorMaterieDAO {
     public List<Profesor> getTeachersBySubject(int idMaterie) throws SQLException, UserNotFoundException {
         List<Profesor> profesori = new ArrayList<>();
     
-        String sql = "SELECT u.nume, u.prenume, u.email FROM users u JOIN teacher_subject ts ON ts.idProfesor = u.id WHERE ts.idMaterie = ?";
+        String sql = "SELECT u.nume, u.prenume, u.email, u.passwordHash FROM users u JOIN teacher_subject ts ON ts.idProfesor = u.id WHERE ts.idMaterie = ?";
     
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idMaterie);
@@ -84,8 +92,9 @@ public class ProfesorMaterieDAO {
                     String nume = rs.getString("nume");
                     String prenume = rs.getString("prenume");
                     String email = rs.getString("email");
+                    String passwordHash = rs.getString("passwordHash");
     
-                    Profesor profesor = new Profesor(nume, prenume, email, null, null, null);
+                    Profesor profesor = new Profesor(nume, prenume, email, passwordHash);
 
                     profesori.add(profesor);
                 }
@@ -134,7 +143,7 @@ public class ProfesorMaterieDAO {
         return materii;
     }
     
-    public List<Grupa> getClassesByTeacher(int idProfesor) throws SQLException, GrupaNotFoundException {
+    public List<Grupa> getClassesByTeacher(int idProfesor) throws DatabaseException {
         List<Grupa> grupe = new ArrayList<>();
 
         String sql = "SELECT DISTINCT c.id, c.nume, c.an FROM classes c JOIN teacher_subject ts ON c.id = ts.idGrupa WHERE ts.idProfesor = ?";
@@ -156,11 +165,36 @@ public class ProfesorMaterieDAO {
             } 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Nu s-au putut obtine grupele din tabela teacher_subject", e);
-            throw e;
+            throw new DatabaseException("Nu s-au putut obtine grupele din tabela teacher_subject", e);
         }
 
-        if (grupe.isEmpty()) {
-            throw new GrupaNotFoundException("Nu s-au gasit grupe asociate profesorului dat");
+        return grupe;
+    }
+
+    public List<Grupa> getClassesByTeacherAndCourse(int idProfesor, int idMaterie) throws DatabaseException {
+        List<Grupa> grupe = new ArrayList<>();
+
+        String sql = "SELECT DISTINCT c.id, c.nume, c.an FROM classes c JOIN teacher_subject ts ON c.id = ts.idGrupa WHERE ts.idProfesor = ? AND ts.idMaterie = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idProfesor);
+            stmt.setInt(2, idMaterie);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String nume = rs.getString("nume");
+                    int an = rs.getInt("an");
+
+                    Grupa grupa = new Grupa(nume, an);
+                    grupa.setId(id);
+
+                    grupe.add(grupa);
+                }
+            } 
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Nu s-au putut obtine grupele din tabela teacher_subject", e);
+            throw new DatabaseException("Database error", e);
         }
 
         return grupe;

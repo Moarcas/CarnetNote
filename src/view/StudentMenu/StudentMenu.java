@@ -60,7 +60,7 @@ public class StudentMenu {
                         studentController.enrollInCourse(user.getId(), materie.getId());
                         System.out.println(ANSI_CYAN + "\nYou have been enrolled in " + materie.getNume() + "\n" + ANSI_RESET);
                     } catch(StudentAlreadyEnrolledException | DatabaseException e) {
-                        System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
+                        System.out.println(ANSI_RED + "\n" + e.getMessage() + "\n" + ANSI_RESET);
                     }
 
                 break;
@@ -100,7 +100,7 @@ public class StudentMenu {
                     System.out.println(ANSI_CYAN + "\nLogging out...\n" + ANSI_RESET);
                     break;
                 default:
-                    System.out.println(ANSI_CYAN + "\nInvalid choice. Please try again.\n" + ANSI_RESET);
+                    System.out.println(ANSI_RED + "\nInvalid choice. Please try again.\n" + ANSI_RESET);
             }
         }
     }

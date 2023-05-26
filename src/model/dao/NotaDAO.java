@@ -18,7 +18,7 @@ import java.sql.SQLException;
 
 public class NotaDAO {
     private static NotaDAO instance;
-    private static Connection connection;
+    private  Connection connection;
     private static final Logger logger = Logger.getLogger(NotaDAO.class.getName());
 
     private NotaDAO() {
@@ -39,7 +39,7 @@ public class NotaDAO {
     }
 
     public void addNota(Nota nota) {
-        String sql = "INSERT INTO nota (idStudent, idMaterie, nota, data) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO grades (idStudent, idMaterie, nota, date) VALUES (?, ?, ?, ?)";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -73,7 +73,7 @@ public class NotaDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Nota nota = new Nota(rs.getInt("idStudent"), rs.getInt("idMaterie"), rs.getFloat("nota"), rs.getString("data"));
+                Nota nota = new Nota(rs.getInt("idStudent"), rs.getInt("idMaterie"), rs.getFloat("nota"), rs.getString("date"));
                 nota.setId(rs.getInt("id"));
                 note.add(nota);
             }
